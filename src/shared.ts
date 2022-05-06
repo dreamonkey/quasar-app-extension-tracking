@@ -8,6 +8,10 @@ export function useTrackingMeta(
   maybeId: TrackingId,
   metaOptionsFn: (id: string) => MetaOptions
 ): void {
+  if (process.env.NODE_ENV === "development") {
+    return;
+  }
+
   useMeta(() => {
     const id = unref(maybeId);
     if (!id) {

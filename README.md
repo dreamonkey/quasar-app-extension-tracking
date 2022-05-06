@@ -27,6 +27,8 @@ Composables are meant to be placed into your layout components, as you usually w
 All composables accept an id/key, either as a plain string or as a ref.
 When using a ref, the script won't be added when its value is an empty string, undefined or any falsy value.
 
+**Scripts won't be added at all when compiling the app in development mode (eg. when running `quasar dev`)**
+
 ```ts
 // src/layouts/main-layout.vue
 
