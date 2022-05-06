@@ -1,6 +1,6 @@
 {
   "name": "@dreamonkey/quasar-app-extension-tracking",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Provide composables to add multiple tracking scripts via Quasar Meta plugin",
   "keywords": [
     "quasar",
