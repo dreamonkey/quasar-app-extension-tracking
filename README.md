@@ -53,6 +53,64 @@ export default {
 };
 ```
 
+## Helpers
+
+We provide some helpers to make your life easier.
+
+### `logGoogleTagManagerEvent`
+
+You can use this helper to log an event to Google Tag Manager.
+We don't make assumption about the event name nor data, but you must assure that the event name is a valid Google Tag Manager event name.
+The first time you log an event we generate a unique id which identifies the session.
+The id is then saved into the browser local storage and automatically attached to each event as a `cid` property.
+
+```ts
+// Send a lead generation event
+logGoogleTagManagerEvent("leadGeneration", {
+  leadId: "12345",
+});
+
+// { event: "leadGeneration", leadId: "12345", cid: "XXXX-XX...XXX" }
+```
+
+For SPA websites or SSR/SSG with SPA takeover, Google Tag Manager will only catch the first PageView event.
+To record all page views of subsequent navigations, you need to [create an ad-hoc custom event](https://fullstack-tutorials.com/quasar-framework/quasar-framework-google-tag-manager-and-analytics-setup-for-an-spa-website) on Google Tag Manager and use router's `afterEach` hook to fire it upon navigation.
+
+```ts
+// main-layout.vue - setup()
+
+// Send a page view event each time the user navigate
+const router = useRouter();
+router.afterEach((to) => {
+  logGoogleTagManagerEvent("customPageView", {
+    path: to.path,
+  });
+});
+
+// { event: "customPageView", path: "/homepage", cid: "XXXX-XX...XXX" }
+```
+
+In case you need to provide the page title too and you're using Quasar Meta Composable to update it accordingly to the loaded page, remember that Vue-Router isn't aware of that change and you'll need to add a delay to let the update occour.
+
+```ts
+// main-layout.vue - setup()
+
+// Send a page view event each time the user navigate
+const router = useRouter();
+router.afterEach(async (to) => {
+  // Wait for Meta plugin to kick in and update the document title
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  logGoogleTagManagerEvent("customPageView", {
+    path: to.path,
+    title: document.title,
+  });
+});
+
+// { event: "customPageView", path: "/homepage", title: "Homepage - My Website",  cid: "XXXX-XX...XXX" }
+```
+
+You can also use Google Tag Manager ["History Change" listener](https://www.analyticsmania.com/other-posts/single-page-applications-with-universal-analytics-and-google-tag-manager/) instead.
+
 # Similar work
 
 - https://github.com/gtm-support/vue-gtm: much more complete on GTM side, we may copy over some features at some point
