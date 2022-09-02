@@ -109,7 +109,7 @@ router.afterEach(async (to) => {
 // { event: "customPageView", path: "/homepage", title: "Homepage - My Website",  cid: "XXXX-XX...XXX" }
 ```
 
-You can also use Google Tag Manager ["History Change" listener](https://www.analyticsmania.com/other-posts/single-page-applications-with-universal-analytics-and-google-tag-manager/) instead.
+You can also use Google Tag Manager ["History Change" listener](https://www.analyticsmania.com/post/single-page-web-app-with-google-tag-manager/) instead.
 
 # Similar work
 
